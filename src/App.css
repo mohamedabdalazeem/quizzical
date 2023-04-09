@@ -1,0 +1,147 @@
+body{
+    margin: 0px;
+    padding: 20px 10px;
+    font-family: 'Karla', sans-serif;
+    background-image: url('./assets/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  
+}
+
+.start-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 97vh;
+    max-height: 100vh;
+    
+}
+.main-heading{
+    font-size: 30px;
+    margin-bottom: 1px;
+    color: #293264;
+}
+
+.desc {
+    color: #293264;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    font-family: 'Inter';
+}
+
+.start-btn {
+    width: 193px;
+    height: 52px;
+    background-color: #4D5B9E;
+    color: white;
+    border: none;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.start-btn:active{
+    box-shadow: 1px 0px 3px#293264;
+}
+
+.check-ans{
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+.question-container {
+    margin: 10px 75px;
+}
+
+.q-flex-container {
+    display: flex;
+    align-items: center;
+}
+
+.question-heading {
+    color: #293264;
+    font-size: 25px;
+    font-weight: bold;
+}
+.answer{
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.answer > input {
+    display: none;
+}
+
+.answer > button:checked{
+    background-color: #D6DBF5;
+}
+.answer > label {
+    display: inline-block;
+    background-color: #F5F7FB;
+    color: #293264;
+    font-family: 'Inter';
+    border-radius: 10px;
+    border: 0.7px solid #4D5B9E;
+    margin-right: 13px;
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 7px 20px;
+    cursor: pointer;
+}
+
+.answer > input:checked + label {
+    background-color: #D6DBF5;
+    border: none;
+}
+
+.markImg {
+    width: 30px;
+    margin-left: auto;
+}
+
+hr{
+    border: 1px solid #DBDEF0;
+}
+
+.check-btn {
+    font-size: 17px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #4D5B9E;
+    color: white;
+    border: none;
+    margin-left: 30px;
+    cursor: pointer;
+    padding: 15px 25px;
+    font-family: 'Inter';
+    font-weight: 600;
+}
+
+.correct-answer + label{
+    background-color: #04a304 !important;
+    color: white;
+    border: none;
+}
+.wrong-answer + label{
+    background-color: rgb(182, 30, 30) !important;
+    color: white;
+    border: none;
+}
+.correct-choice + label{
+    background-color: rgb(156, 228, 137) !important;
+    color: black;
+    border: none;
+}
+
+@media screen and (max-width: 600px)  {
+   
+    .question-container {
+        margin: 10px 15px;
+        
+    }
+}
+
