@@ -9,50 +9,55 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false)
   const [questions, setQuestions] = useState([])
   const [check, setCheck] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   function startGame() {
     setGameStarted(true)
   }
   
   useEffect(()=> {
-    fetch('https://opentdb.com/api.php?amount=5&type=multiple')
-    .then((response) => response.json())
-    .then((data) => {
-      const result = data.results
-      let arr=[]
-      
-       for(let i=0; i<5;i++){
-        let answers = []
-        for (let choice of result[i].incorrect_answers){
-          let refinedChoice = choice.replace(/(&quot\;)/g,"\"")
-          refinedChoice = refinedChoice.replace(/(&#039\;)/g, "\'")
-          answers.push(refinedChoice)
+    if(gameStarted){
+      setLoading(true)
+      fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+      .then((response) => response.json())
+      .then((data) => {
+        const result = data.results
+        let arr=[]
+        
+        for(let i=0; i<5;i++){
+          let answers = []
+          for (let choice of result[i].incorrect_answers){
+            let refinedChoice = choice.replace(/(&quot\;)/g,"\"")
+            refinedChoice = refinedChoice.replace(/(&#039\;)/g, "\'")
+            answers.push(refinedChoice)
+          }
+          let randomIndex = Math.floor(Math.random()*4)
+          answers.splice(randomIndex, 0, result[i].correct_answer)
+          let question = result[i].question.replace(/(&quot\;)/g,"\"")
+          question = question.replace(/(&#039\;)/g, "\'")
+          arr.push({
+            id:nanoid(),
+            question:question,
+            choices:answers,
+            correctAnswer:result[i].correct_answer,
+            chosenAnswer: '',
+            checkAnswer:false
+          })
         }
-        let randomIndex = Math.floor(Math.random()*4)
-        answers.splice(randomIndex, 0, result[i].correct_answer)
-        let question = result[i].question.replace(/(&quot\;)/g,"\"")
-        question = question.replace(/(&#039\;)/g, "\'")
-        arr.push({
-          id:nanoid(),
-          question:question,
-          choices:answers,
-          correctAnswer:result[i].correct_answer,
-          chosenAnswer: '',
-          checkAnswer:false
-        })
-       }
-       setQuestions(arr)
-    })
-    .catch((err) => {
-      console.log(err.message)
-    })
+        setQuestions(arr)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
   },[gameStarted])
 
   
   function restartGame() {
-    setGameStarted(false)
     setCheck(false)
-    setQuestions(questions.map((question) => ({...question, checkAnswer:false})))
+    setGameStarted(false)
+    setQuestions([])
   }
   const handleQuestionUpdate = ({id, selectedChoice}) => {
     setQuestions(questions.map((question) => (
@@ -74,17 +79,9 @@ function App() {
           theme: "light",
           });
         return
+        }
       }
-    }
-    setCheck(true)
-    setQuestions(questions.map((question) => ({...question, checkAnswer:true})))
-  }
-
-  const numberOfCorrectAnswers = questions.reduce((acc, question) => {
-    if(question.chosenAnswer === question.correctAnswer){
-      acc++
-    }
-    if(acc == 5){
+    if(numberOfCorrectAnswers == 5){
       toast.success('🦄 Wow so easy!', {
         position: "top-center",
         autoClose: 4000,
@@ -95,6 +92,14 @@ function App() {
         progress: undefined,
         theme: "colored",
         });
+    }
+    setCheck(true)
+    setQuestions(questions.map((question) => ({...question, checkAnswer:true})))
+  }
+
+  const numberOfCorrectAnswers = questions.reduce((acc, question) => {
+    if(question.chosenAnswer === question.correctAnswer){
+      acc++
     }
     return acc
   },0)
@@ -114,8 +119,9 @@ function App() {
         </button>
       </div>
       }
+      { gameStarted && loading && <p className='loading'>loading...</p>}
       { 
-        gameStarted &&
+        gameStarted && !loading &&
         <div>
           {questions.map((question) => (
             <Question 

@@ -13,7 +13,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 97vh;
+    min-height: 95vh;
     max-height: 100vh;
     
 }
@@ -46,7 +46,10 @@ body{
 .start-btn:active{
     box-shadow: 1px 0px 3px#293264;
 }
-
+.loading{
+    font-size: 30px;
+    color: #4D5B9E;
+}
 .check-ans{
     text-align: center;
     margin-top: 30px;
@@ -114,6 +117,7 @@ hr{
     background-color: #4D5B9E;
     color: white;
     border: none;
+    margin-top: 15px;
     margin-left: 30px;
     cursor: pointer;
     padding: 15px 25px;
